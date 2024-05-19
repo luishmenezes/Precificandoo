@@ -1,4 +1,39 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show
+        AppBar,
+        BuildContext,
+        Center,
+        Colors,
+        Column,
+        CrossAxisAlignment,
+        EdgeInsets,
+        ElevatedButton,
+        FloatingActionButton,
+        Icon,
+        Icons,
+        InputDecoration,
+        ListTile,
+        ListView,
+        MainAxisAlignment,
+        MaterialApp,
+        MaterialPageRoute,
+        Navigator,
+        Padding,
+        PopupMenuButton,
+        PopupMenuItem,
+        Row,
+        Scaffold,
+        SizedBox,
+        State,
+        StatefulWidget,
+        StatelessWidget,
+        Text,
+        TextEditingController,
+        TextField,
+        TextInputType,
+        ThemeData,
+        Widget,
+        runApp;
 
 void main() {
   runApp(MyApp());
@@ -211,6 +246,9 @@ class _EditIngredientPageState extends State<EditIngredientPage> {
   late TextEditingController quantityController;
   late TextEditingController totalCostPriceController;
 
+  double costPricePerUnit = 0.0;
+  double totalCostPrice = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -219,7 +257,7 @@ class _EditIngredientPageState extends State<EditIngredientPage> {
     nameController = TextEditingController(text: ingredientParts[0]);
     quantityController = TextEditingController(text: ingredientParts[1]);
     totalCostPriceController =
-        TextEditingController(text: ingredientParts[2].replaceAll(' R\$', ''));
+        TextEditingController(text: ingredientParts[2].replaceAll(' ', ''));
   }
 
   @override
@@ -241,11 +279,17 @@ class _EditIngredientPageState extends State<EditIngredientPage> {
               controller: quantityController,
               decoration: InputDecoration(labelText: 'Quantidade Comprada'),
               keyboardType: TextInputType.number,
+              onChanged: (value) {
+                calculateCostPricePerUnit();
+              },
             ),
             TextField(
               controller: totalCostPriceController,
               decoration: InputDecoration(labelText: 'Preço de Compra Total'),
               keyboardType: TextInputType.number,
+              onChanged: (value) {
+                calculateCostPricePerUnit();
+              },
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
@@ -254,9 +298,10 @@ class _EditIngredientPageState extends State<EditIngredientPage> {
                 String name = nameController.text;
                 String quantity = quantityController.text;
                 String totalCostPrice = totalCostPriceController.text;
+
                 // Montar o ingrediente atualizado
                 String updatedIngredient =
-                    '$name - $quantity - R\$$totalCostPrice';
+                    '$name - $quantity - $totalCostPrice - $costPricePerUnit';
                 // Atualizar a lista de ingredientes com o ingrediente atualizado
                 widget.ingredients[widget.index] = updatedIngredient;
                 // Voltar para a página anterior com a lista atualizada de ingredientes
@@ -268,6 +313,18 @@ class _EditIngredientPageState extends State<EditIngredientPage> {
         ),
       ),
     );
+  }
+
+  void calculateCostPricePerUnit() {
+    setState(() {
+      double quantity = double.tryParse(quantityController.text) ?? 0.0;
+      totalCostPrice = double.tryParse(totalCostPriceController.text) ?? 0.0;
+      if (quantity != 0.0) {
+        costPricePerUnit = totalCostPrice / quantity;
+      } else {
+        costPricePerUnit = 0.0;
+      }
+    });
   }
 }
 
