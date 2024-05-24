@@ -38,6 +38,8 @@ import 'package:flutter/material.dart'
 import 'package:helloworld/modelos/IngredientsPage.dart';
 import 'package:helloworld/modelos/AddIngredientPage.dart';
 import 'package:helloworld/modelos/EditIngredientPage.dart';
+import 'package:helloworld/modelos/navbar.dart';
+import 'modelos/navbar.dart';
 
 void main() {
   runApp(MyApp());
