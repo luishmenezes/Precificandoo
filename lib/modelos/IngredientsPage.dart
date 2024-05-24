@@ -15,6 +15,7 @@ class _IngredientListPageState extends State<IngredientListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(60, 90, 182, 0.3),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [const Text("Lista de Ingredientes")],
